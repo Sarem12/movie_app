@@ -1,0 +1,10 @@
+const express = require('express')
+const router = express.Router()
+const {getallusers, getuser,postuser, putuser, deletuser, patchuser} = require('../controllers/user')
+const { getuserr, postuserreviews } = require('../controllers/streamed_review')
+const {} =  require('../controllers/streamed_review.js')
+router.route('/').get(getallusers).post(postuser)
+router.route('/id/:id').get(getuser).put(putuser).delete(deletuser).patch(patchuser)
+router.route('/id/:id/reviews').get(getuserr).post(postuserreviews)
+router.route('/search')
+module.exports = router

@@ -1,0 +1,5 @@
+backend/node_modules
+backend/.env
+backend/sql/Alter.sql
+backend/sql/for.sql
+backend/data/SELECT.sql
