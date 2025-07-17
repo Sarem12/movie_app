@@ -278,7 +278,29 @@ const getvideos =  async (req, res, next) => {
 };
 const deletesub =  async (req, res, next) => {
   try {
-    
+       const { id, index, jindex,vindex } = req.params;
+    const subs = await findsub(id,index,jindex)
+    const sub = subs[vindex-1]
+    if(!sub){
+      res.status(404).send('Not Found')
+    }
+    await model.removesub(sub.id)
+    next();
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err);
+  }
+}
+const deletevideo =  async (req, res, next) => {
+  try {
+       const { id, index, jindex,vindex } = req.params;
+    const videos = await findvideo(id,index,jindex)
+    const video = videos[vindex-1]
+    if(!video){
+      res.status(404).send('Not Found')
+    }
+    await model.removevideo(video.id)
+    next();
   } catch (err) {
     console.error(err);
     res.status(500).send(err);
@@ -295,5 +317,7 @@ module.exports = {
   getallsubs,
   getsub,
   getallvideos,
-  getvideos
+  getvideos,
+  deletesub,
+  deletevideo
 };
