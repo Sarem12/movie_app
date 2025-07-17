@@ -86,6 +86,11 @@ const removesubs =  async(id)=>{
 const removevidoes = async(id) =>{
   await db.query('DELETE FROM videos WHERE id= $1',[id])
 }
+const removesub =  async(id)=>{
+  await db.query('DELETE FROM sub WHERE id= $1',[id])
+}
+const removevideo = async(id) =>{
+  await db.query('DELETE FROM video WHERE id= $1',[id])
+}
 
-
-module.exports ={findep,subs,videos,creatsub,creatvideo,creatvideos,creatmsubs,createep,updateep,removeep,removesubs,removevidoes}
+module.exports ={findep,subs,videos,creatsub,creatvideo,creatvideos,creatmsubs,createep,updateep,removeep,removesubs,removevidoes,removesub,removevideo}

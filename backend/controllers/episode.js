@@ -203,6 +203,7 @@ const findsub = async (id, index, jindex) => {
     const episodes = await findep(id, index);
     const episode = await episodes[jindex - 1];
     const subs = episode.subs;
+    subs.sort((a, b) => Number(a.id) - Number(b.id));
     return subs;
   } catch (err) {
     console.error(err);
@@ -241,6 +242,7 @@ const findvideo = async (id, index, jindex) => {
     const episodes = await findep(id, index);
     const episode = await episodes[jindex - 1];
     const videos = episode.videos;
+    videos.sort((a, b) => Number(a.id) - Number(b.id));
     return videos;
   } catch (err) {
     console.error(err);
@@ -274,6 +276,14 @@ const getvideos =  async (req, res, next) => {
     res.status(500).send(err);
   }
 };
+const deletesub =  async (req, res, next) => {
+  try {
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err);
+  }
+}
 module.exports = {
   getep,
   getallep,
