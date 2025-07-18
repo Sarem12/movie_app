@@ -1,4 +1,4 @@
-const { title } = require("process");
+const { title, send } = require("process");
 const model = require("../model/episode");
 const revmodel = require("../model/episode_review");
 const season_model = require("../model/season");
@@ -306,6 +306,70 @@ const deletevideo =  async (req, res, next) => {
     res.status(500).send(err);
   }
 }
+const findreview = async(id,index,jindex)=>{
+const episodes = await findep(id, index);
+    const episode = await episodes[jindex - 1];
+    const review = episode.review;
+    review.sort((a, b) => Number(a.id) - Number(b.id));
+    return review;
+}
+const getallreview = async (req, res, next) => {
+  try {
+    const {id,index,jindex} = req.params
+    const result = await findreview(id,index,jindex)
+    res.status(200).json(result)
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err);
+  }
+} 
+const getreview = async (req, res, next) => {
+  try {
+        const {id,index,jindex,vindex} = req.params
+    const reviews = await findreview(id,index,jindex)
+    const result = reviews[vindex-1]
+    res.status(200).json(result)
+    if(!result){
+      res.status(404).send('not found')
+    }
+    res.status(200).json(result)
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err);
+  }
+}
+const postreview = async (req, res, next) => {
+  try {
+    const data = req.body
+    const {id,index,jindex} = req.params
+    const episodes = await findep(id,index)
+    const episode = episodes[jindex-1]
+  const review ={
+    episode_id:episode.id,
+    user_id:data.user_id,
+    thumbs_up:data.thumbs_up,
+    comment:data.comment,
+
+  }
+    const newreview= await revmodel.createreview(review)
+    res.status(201).json(newreview)
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err);
+  }
+}
+const deletereview = async (req, res, next) => {
+  try {
+      const{id,index,jindex,vindex} = req.params
+      const reviews = await findreview(id,index,jindex)
+      const result = reviews[vindex-1]
+      await revmodel.removereview(result.id)
+      next()
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err);
+  }
+}
 module.exports = {
   getep,
   getallep,
@@ -319,5 +383,9 @@ module.exports = {
   getallvideos,
   getvideos,
   deletesub,
-  deletevideo
+  deletevideo,
+  getallreview,
+  getreview,
+  postreview,
+  deletereview
 };

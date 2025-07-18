@@ -117,3 +117,4 @@ WHERE series.id = 1;
 --       (87, i, FALSE, 'Not my favorite.');
 --   END LOOP;
 -- END $$;
+INSERT

@@ -2,7 +2,7 @@ const express = require('express')
 
 const { getseries, getallserieses, postseries, patchseries } = require('../controllers/series')
 const { getseason, getallseasons, postseason, patchseason } = require('../controllers/season')
-const { getep, getallep, postep, patchep, deleteep, getallsubs, postsub, getallvideos, postvideo, getsub, deletesub, getvideos, deletevideo }= require('../controllers/episode')
+const { getep, getallep, postep, patchep, deleteep, getallsubs, postsub, getallvideos, postvideo, getsub, deletesub, getvideos, deletevideo, getallreview, getreview, postreview, deletereview }= require('../controllers/episode')
 const router = express.Router()
 router.route('/').get(getallserieses).post(postseries)
 router.route('/:id').get(getseries).patch(patchseries).patch(getseries)
@@ -14,4 +14,6 @@ router.route('/:id/season/:index/ep/:jindex/sub').get(getallsubs).post(postsub).
 router.route('/:id/season/:index/ep/:jindex/video').get(getallvideos).post(postvideo).post(getallvideos)
 router.route('/:id/season/:index/ep/:jindex/sub/:vindex').get(getsub).delete(deletesub).delete(getallsubs)
 router.route('/:id/season/:index/ep/:jindex/video/:vindex').get(getvideos).delete(deletevideo).delete(getallvideos)
+router.route('/:id/season/:index/ep/:jindex/review').get(getallreview).post(postreview)
+router.route('/:id/season/:index/ep/:jindex/review/:vindex').get(getreview).delete(deletereview).delete(getallreview)
 module.exports = router
